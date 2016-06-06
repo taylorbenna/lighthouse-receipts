@@ -27,26 +27,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.receipts = [[NSMutableArray alloc] init];
     self.tags = [[NSMutableArray alloc] init];
     
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Receipts"];
-    
     NSError *error;
-    self.receipts = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] mutableCopy];
-    
-    fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Tag"];
     self.tags = [[self.managedObjectContext executeFetchRequest:fetchRequest error:&error] mutableCopy];
     
     if (self.tags.count == 0) {
         Tag *tag = [NSEntityDescription insertNewObjectForEntityForName:@"Tag" inManagedObjectContext:self.managedObjectContext];
         tag.tagName = @"Personal";
+        [self.tags addObject:tag];
         
         Tag *tag2 = [NSEntityDescription insertNewObjectForEntityForName:@"Tag" inManagedObjectContext:self.managedObjectContext];
         tag2.tagName = @"Family";
+        [self.tags addObject:tag2];
+
         
         Tag *tag3 = [NSEntityDescription insertNewObjectForEntityForName:@"Tag" inManagedObjectContext:self.managedObjectContext];
         tag3.tagName = @"Business";
+        [self.tags addObject:tag3];
+
         
         [self.managedObjectContext save:&error];
     }
